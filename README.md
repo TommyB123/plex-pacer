@@ -14,7 +14,7 @@ Plex Pacer is a simple and somewhat jank script that can be used to organize the
 * Very easy to update with new releases.
 * Hardlinks files when organizing into season folders, avoiding needless file duplication while also keeping original downloads intact.
 * Preserves original file names (Aside from the Dressrosa arc, whose batch is named differently from literally every other release. The Dressrosa episodes are renamed by the script to match the other One Pace releases. This is required because they will not be parsed in Plex properly otherwise.)
-* Uses the Plex API to directly apply metadata to One Pace episode entries inside of Plex. This means that you can also use alternative One Pace-compatible edits like Muhn Pace if you're a dub watcher. Do note that this script is not written to organize other edits and can only apply metadata to edits that follow One Pace's episode structure. This also means that additional series parser plugins and etc are needed.
+* Uses the Plex API to directly apply metadata to One Pace episode entries inside of Plex. This means that you can also use alternative One Pace-compatible edits like Muhn Pace if you're a dub watcher. Do note that this script is not written to organize other edits and can only apply metadata to edits that follow One Pace's episode structure. This also means that additional series parser plugins and etc not are needed.
 * Does not apply the episode's release date to Plex. Since One Pace episodes are released in random orders, this ensures Plex doesn't try to play incorrect episodes when a season ends.
 
 # Data sources
