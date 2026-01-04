@@ -185,6 +185,10 @@ def organize_files():
                     season_index += 1
                     continue
 
+                if season in ['The Adventures of Buggy\'s Crew', 'The Trials of Koby-Meppo', 'The Adventures of the Straw Hats']:
+                    # rename cover story specials because their files don't have episode numbers
+                    final_name = final_name.replace(season, f'{season} 01')
+
                 # prepare directories
                 if os.path.exists(PACE_SERIES_NAME) is False:
                     print('creating root series directory for One Pace')
