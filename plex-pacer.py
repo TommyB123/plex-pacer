@@ -12,6 +12,8 @@ with open('episodes.json', encoding="utf-8") as f:
 with open('config.json') as f:
     plex_data = json.load(f)
 
+PACE_SERIES_NAME = 'One Pace'
+
 # your plex username or email
 PLEX_LOGIN = plex_data['plex_username']
 
@@ -184,21 +186,20 @@ def organize_files():
                     continue
 
                 # prepare directories
-                op_root = 'One Pace'
-                if os.path.exists(op_root) is False:
+                if os.path.exists(PACE_SERIES_NAME) is False:
                     print('creating root series directory for One Pace')
                     if dry_run is False:
-                        os.makedirs(op_root)
+                        os.makedirs(PACE_SERIES_NAME)
 
                 season_number = season_index + 1
                 season_path = f'Season {season_number:02d}'
 
-                if os.path.exists(f'{op_root}/{season_path}') is False:
+                if os.path.exists(f'{PACE_SERIES_NAME}/{season_path}') is False:
                     print(f'creating season folder for season {season_number}')
                     if dry_run is False:
-                        os.makedirs(f'{op_root}/{season_path}')
+                        os.makedirs(f'{PACE_SERIES_NAME}/{season_path}')
 
-                final_file = Path(f'{op_root}/{season_path}/{final_name}')
+                final_file = Path(f'{PACE_SERIES_NAME}/{season_path}/{final_name}')
                 if os.path.exists(final_file):
                     # quietly skip over already existing episodes
                     continue
@@ -220,8 +221,7 @@ def apply_plex_metadata():
     if confirm.lower() != 'y':
         return
 
-    success = plex_auth()
-    if success is False:
+    if plex_auth() is False:
         return
 
     print('Successfully found One Pace series. Searching for episodes to apply metadata to.')
@@ -260,8 +260,7 @@ def apply_plex_posters():
     if confirm.lower() != 'y':
         return
 
-    success = plex_auth()
-    if success is False:
+    if plex_auth() is False:
         return
 
     if os.path.exists('assets/series_poster.png') is True:
