@@ -1,6 +1,8 @@
 # Plex Pacer
 Plex Pacer is a simple and somewhat jank script that can be used to organize the [One Pace](https://onepace.net) edit of the One Piece anime for your Plex library. It offers the ability to organize your files into season folders appropriately, apply respective metadata through the Plex API and also assign custom season posters.
 
+Optional support for Onigashima Paced, another One Piece edit that currently fills in the gap for episodes of the Wano arc that the Pace team have yet to cover, is also available.
+
 # How to use
 * Ensure the Python programming language is available on your system. If you don't have it, you can easily grab it through the [Microsoft Store](https://apps.microsoft.com/detail/9pnrbtzxmb4z)
 * Install the Plex API library for Python. `pip install plexapi`
@@ -23,3 +25,5 @@ Plex Pacer is a simple and somewhat jank script that can be used to organize the
 [Episode Titles](https://github.com/one-pace/one-pace-public-subtitles/blob/main/main/title.properties)
 
 [Episode Descriptions](https://docs.google.com/spreadsheets/d/1M0Aa2p5x7NioaH9-u8FyHq6rH3t5s6Sccs8GoC6pHAM/)
+
+[Onigashima Paced Episode Titles](https://docs.google.com/spreadsheets/d/1HoYogAchoU5DWxVJzUy3eZcHMZk_hUmzUVnQm9KxeFI/)
