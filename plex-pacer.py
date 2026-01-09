@@ -137,12 +137,12 @@ def get_pace_episode_metadata(season: int, episode: int):
     if season is None:
         return None
     else:
-        if episode_index > len(season):
+        if episode_index < len(season):
+            return season[episode_index]
+        else:
             # skip episode that's > than the current One Pace edits.
             # this shouldn't happen outside of cases where users have added other One Piece edits to the series.
             return None
-        else:
-            return season[episode_index]
 
 
 def main():
@@ -177,7 +177,7 @@ def organize_files():
             continue
 
         for file in files:
-            if file.endswith('.mkv') is False:  # skip over non-mkv files
+            if file.endswith('.mkv') is False or file.endswith('.mp4'): is False  # skip over non-mkv files
                 continue
 
             season_index = 0
