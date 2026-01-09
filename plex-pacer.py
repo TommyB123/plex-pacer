@@ -177,7 +177,7 @@ def organize_files():
             continue
 
         for file in files:
-            if file.endswith('.mkv') is False or file.endswith('.mp4'): is False  # skip over non-mkv files
+            if file.endswith('.mkv') is False and file.endswith('.mp4'): is False  # skip over non-mkv files
                 continue
 
             season_index = 0
