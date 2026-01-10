@@ -47,11 +47,11 @@ pace_seasons = [
     'The Adventures of Buggy\'s Crew',  # Season 7
     'Loguetown',  # Season 8
     'Reverse Mountain',  # Season 9
-    'Whiskey Peak',  # Season 10 (Note: current filenames are Whiskey but One Pace spreadsheets have it written as Whisky. Will likely need an update in the future)
+    ('Whiskey Peak', 'Whisky Peak'),  # Season 10
     'The Trials of Koby-Meppo',  # Season 11
     'Little Garden',  # Season 12
     'Drum Island',  # Season 13
-    'Arabasta',  # Season 14
+    ('Arabasta', 'Alabasta'),  # Season 14
     'Jaya',  # Season 15
     'Skypiea',  # Season 16
     'Long Ring Long Land',  # Season 17
@@ -194,7 +194,11 @@ def organize_files():
                         final_name = f'[One Pace][{match.group(1)}] Dressrosa {episode_number} [720p]{match.group(2)}.mkv'
                         print(f'Renaming Dressrosa episode from {file} to {final_name}')
                 else:
-                    match = re.match(fr'\[One Pace\].* {season} [0-9]*', file)
+                    if isinstance(season, tuple):
+                        for subseason in season:
+                            match = re.match(fr'\[One Pace\].* {subseason} [0-9]*', file)
+                    else:
+                        match = re.match(fr'\[One Pace\].* {season} [0-9]*', file)
                     final_name = file
 
                 if match is None:
