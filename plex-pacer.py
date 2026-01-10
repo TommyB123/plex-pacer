@@ -170,6 +170,11 @@ def organize_files():
     if confirm.lower() != 'y':
         return
 
+    PACE_PATH = None
+    cwd = os.path.basename(os.getcwd())
+    if cwd == PACE_SERIES_NAME:
+        PACE_PATH = '.'
+
     files_moved = 0
     # organize files first
     for path, dirs, files in os.walk('.'):
@@ -201,20 +206,21 @@ def organize_files():
                     final_name = final_name.replace(season, f'{season} 01')
 
                 # prepare directories
-                if os.path.exists(PACE_SERIES_NAME) is False:
+                if PACE_PATH is None and os.path.exists(PACE_SERIES_NAME) is False:
                     print('creating root series directory for One Pace')
+                    PACE_PATH = PACE_SERIES_NAME
                     if dry_run is False:
                         os.makedirs(PACE_SERIES_NAME)
 
                 season_number = season_index + 1
                 season_path = f'Season {season_number:02d}'
 
-                if os.path.exists(f'{PACE_SERIES_NAME}/{season_path}') is False:
+                if os.path.exists(f'{PACE_PATH}/{season_path}') is False:
                     print(f'creating season folder for season {season_number}')
                     if dry_run is False:
-                        os.makedirs(f'{PACE_SERIES_NAME}/{season_path}')
+                        os.makedirs(f'{PACE_PATH}/{season_path}')
 
-                final_file = Path(f'{PACE_SERIES_NAME}/{season_path}/{final_name}')
+                final_file = Path(f'{PACE_PATH}/{season_path}/{final_name}')
                 if os.path.exists(final_file):
                     # quietly skip over already existing episodes
                     continue
