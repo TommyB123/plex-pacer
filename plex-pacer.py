@@ -187,7 +187,7 @@ def organize_files():
 
             season_index = 0
             for season in pace_seasons:
-                if season == 'Dressrosa':  # bless this arc's batch for having a different naming scheme from all the others
+                if season == 'Dressrosa' and file.find('Dressrosa') == -1:  # bless this arc's batch torrent for having a different naming scheme from all the others
                     match = re.match(r'\[One Pace] Chapter ([-0-9]*) \[720p](\[.*])', file)
                     if match is not None and file.find('Chapter') != -1:
                         episode_number = dressrosa_episodes.get(match.group(1))
@@ -205,8 +205,8 @@ def organize_files():
                     season_index += 1
                     continue
 
-                if season in ['The Adventures of Buggy\'s Crew', 'The Trials of Koby-Meppo', 'The Adventures of the Straw Hats']:
-                    # rename cover story specials because their files don't have episode numbers
+                if file.endswith('.mkv') and season in ['The Adventures of Buggy\'s Crew', 'The Trials of Koby-Meppo', 'The Adventures of the Straw Hats']:
+                    # rename cover story special MKVs because their files don't have episode numbers, but the streamable MP4s do
                     final_name = final_name.replace(season, f'{season} 01')
 
                 # prepare directories
