@@ -182,7 +182,7 @@ def organize_files():
             continue
 
         for file in files:
-            if file.endswith('.mkv') is False and file.endswith('.mp4') is False:  # skip over non-mkv files
+            if not file.endswith(('.mkv', '.mp4')):  # skip over non-video files
                 continue
 
             season_index = 0
@@ -210,11 +210,13 @@ def organize_files():
                     final_name = final_name.replace(season, f'{season} 01')
 
                 # prepare directories
-                if PACE_PATH is None and os.path.exists(PACE_SERIES_NAME) is False:
-                    print('creating root series directory for One Pace')
-                    PACE_PATH = PACE_SERIES_NAME
-                    if dry_run is False:
-                        os.makedirs(PACE_SERIES_NAME)
+                if PACE_PATH is None:
+                    if os.path.exists(PACE_SERIES_NAME) is False:
+                        print('creating root series directory for One Pace')
+                        if dry_run is False:
+                            os.makedirs(PACE_SERIES_NAME)
+
+                PACE_PATH = PACE_SERIES_NAME
 
                 season_number = season_index + 1
                 season_path = f'Season {season_number:02d}'
