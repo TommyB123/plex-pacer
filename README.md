@@ -3,10 +3,12 @@ Plex Pacer is a simple and somewhat jank script that can be used to organize the
 
 Optional support for Onigashima Paced, another One Piece edit that currently fills in the gap for episodes of the Wano arc that the Pace team have yet to cover, is also available.
 
+[Click here to download](https://github.com/TommyB123/plex-pacer/archive/refs/heads/main.zip)
+
 # How to use
 * Ensure the Python programming language is available on your system. If you don't have it, you can easily grab it through the [Microsoft Store](https://apps.microsoft.com/detail/9pnrbtzxmb4z)
 * Install the Plex API library for Python. `pip install plexapi`
-* Download the latest release [here](https://github.com/TommyB123/plex-pacer/releases).
+* Download the latest release [here](https://github.com/TommyB123/plex-pacer/archive/refs/heads/main.zip).
 * Extract the zip file to a folder.
     * If you intend to use the script to organize your One Pace episodes, you must place the script files in a directory that contains either the episodes or a child directory with the episodes.
 * Edit `config.json` with any text editor and fill out your Plex username and password alongside the name of the media server you will be creating your One Pace series entry on.
