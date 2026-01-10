@@ -7,7 +7,7 @@ Optional support for Onigashima Paced, another One Piece edit that currently fil
 
 # How to use
 * Ensure the Python programming language is available on your system. If you don't have it, you can easily grab it through the [Microsoft Store](https://apps.microsoft.com/detail/9pnrbtzxmb4z)
-* Install the Plex API library for Python. `pip install plexapi`
+* Install the Plex API library for Python. Enter `pip install plexapi` into your command prompt/terminal.
 * Download the latest release [here](https://github.com/TommyB123/plex-pacer/archive/refs/heads/main.zip).
 * Extract the zip file to a folder.
     * If you intend to use the script to organize your One Pace episodes, you must place the script files in a directory that contains either the episodes or a child directory with the episodes.
