@@ -131,8 +131,10 @@ dressrosa_episodes = {
 
 def get_pace_episode_metadata(season: int, episode: int):
     season_name = pace_seasons[season - 1]
-    episode_index = episode - 1
+    if isinstance(season_name, tuple):
+        season_name = season_name[0]  # use the og/outdated season names because that's what's in our episodes.json file
 
+    episode_index = episode - 1
     season = series_data.get(season_name)
     if season is None:
         return None
