@@ -272,7 +272,7 @@ def apply_plex_metadata():
             print(f"Applied episode title to {episode.seasonEpisode.upper()} ({metadata['title']})")
             changed = True
 
-        new_summary = f'{metadata['summary']}\nManga Chapters: {metadata['chapters']}\nEdited Episodes: {metadata['episodes']}'
+        new_summary = f"{metadata['summary']}\nManga Chapters: {metadata['chapters']}\nEdited Episodes: {metadata['episodes']}"
         if episode.summary != new_summary:
             if dry_run is False:
                 episode.editSummary(new_summary)
