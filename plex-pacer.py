@@ -27,7 +27,7 @@ PLEX_PASSWORD = plex_data['plex_password']
 PLEX_SERVER_NAME = plex_data['plex_server_name']
 
 # variables for suppelementing the incomplete Wano arc with the Onigashima Paced edit alongside One Pace proper
-ONIGASHIMA_START = 23
+ONIGASHIMA_START = 24
 ONIGASHIMA_END = 48
 WANO_SEASON_NUMBER = 35
 
