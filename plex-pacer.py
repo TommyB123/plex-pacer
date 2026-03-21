@@ -148,30 +148,40 @@ def get_pace_episode_metadata(season: int, episode: int):
 
 
 def main():
-    ask_dry_run()
-    organize_files()
-    apply_plex_metadata()
-
-    if dry_run is False:
-        apply_plex_posters()
-
-    ask_extra_edits()
-    extra_edit_plex_metadata()
+    while True:
+        clear_terminal()
+        print("Enter the option you'd like to use below. Enter any other key to cancel.")
+        print(f"1. Dry run status: {"yes" if dry_run is True else "no"}. Dry run means no actual files or Plex metadata wil be modified. Only example output will be shown.")
+        print("2. Scan for and organize One Pace episodes")
+        print("3. Apply One Pace episode metadata to Plex. Please only do this after you've verified that your One Pace episodes are present in your Plex server.")
+        print("4. Apply custom posters and backgrounds to the One Pace series and its seasons. This is strongly recommended as they'll be blank otherwise and you'll need to update them manually.")
+        print("5. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
+        print("6. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
+        response = input("Option: ")
+        clear_terminal()
+        match response:
+            case '1':
+                ask_dry_run()
+            case '2':
+                organize_files()
+            case '3':
+                apply_plex_metadata()
+            case '4':
+                apply_plex_posters()
+            case '5':
+                ask_extra_edits()
+            case '6':
+                extra_edit_plex_metadata()
+            case _:
+                break
 
 
 def ask_dry_run():
-    confirm = input('Would you like to do a dry run? No files or Plex metadata will be modified.\nY/N\n')
-    if confirm.lower() == 'y':
-        global dry_run
-        dry_run = True
+    global dry_run
+    dry_run = not dry_run
 
 
 def organize_files():
-    # prompt user to scan for pace episodes
-    confirm = input('Scan for and organize One Pace episodes?\nY/N\n')
-    if confirm.lower() != 'y':
-        return
-
     PACE_PATH = None
     cwd = os.path.basename(os.getcwd())
     if cwd == PACE_SERIES_NAME:
@@ -242,15 +252,12 @@ def organize_files():
                 season_index += 1
                 break
 
-    print(f'{files_moved} episode(s) have been moved to their appropriate folders.')
+    print(f'{files_moved} {"episode" if files_moved == 1 else "episodes"} have been moved to their appropriate folders.')
     print('Please copy these files to your Plex series folder before attempting to apply metadata.\n')
+    input('Press enter to continue')
 
 
 def apply_plex_metadata():
-    confirm = input('Would you like to apply One Pace episode metadata to Plex? Please only proceed when you\'ve moved the edited episodes and verified they\'re present in your media server.\nY/N\n')
-    if confirm.lower() != 'y':
-        return
-
     if plex_auth() is False:
         return
 
@@ -260,6 +267,10 @@ def apply_plex_metadata():
     for episode in episodes:
         metadata = get_pace_episode_metadata(episode.seasonNumber, episode.episodeNumber)
         if metadata is None:
+            if episode.seasonNumber == WANO_SEASON_NUMBER and episode.episodeNumber > len(series_data['Wano']):
+                # quietly skip Onigashima Paced Wano episodes
+                continue
+
             print(f'Could not find any One Pace metadata for {episode.seasonEpisode.upper()}')
             continue
 
@@ -284,13 +295,10 @@ def apply_plex_metadata():
             episodes_changed += 1
 
     print(f'Applied metadata to {episodes_changed} One Pace episodes.')
+    input('Press enter to continue')
 
 
 def apply_plex_posters():
-    confirm = input('Would you like to apply custom posters and backgrounds to the One Pace series and its seasons? This is strongly recommended as they\'ll be blank otherwise and you\'ll need to update them manually.\nY/N\n')
-    if confirm.lower() != 'y':
-        return
-
     if plex_auth() is False:
         return
 
@@ -307,12 +315,10 @@ def apply_plex_posters():
             season.uploadPoster(filepath=f'assets/posters/{season.index:02d}.png')
             print(f'Applied poster to Season {season.index:02d}')
 
+    input('Press enter to continue')
+
 
 def ask_extra_edits():
-    confirm = input('OPTIONAL: Would you like to organize Onagashima Paced? Select N if you don\'t have it.\nY/N\n')
-    if confirm.lower() != 'y':
-        return
-
     current_wano_length = len(series_data['Wano'])
     print('Since Onigashima Paced is another edit that will be placed alongside One Pace episodes, the episode numbering won\'t line up.')
     print('In order to fix this, we\'ll be renumbering the episode files. Pick an episode number to begin the renumbering at.')
@@ -389,12 +395,10 @@ def ask_extra_edits():
         if dry_run is False:
             os.link(f'{path}/{name}', final_file)
 
+    input('Press enter to continue')
+
 
 def extra_edit_plex_metadata():
-    confirm = input('OPTIONAL: Would you like to apply Onigashima Paced episode metadata to Plex? Please only proceed when you\'ve moved the edited episodes and verified they\'re present in your media server.\nY/N\n')
-    if confirm.lower() != 'y':
-        return
-
     if plex_auth() is False:
         return
 
@@ -440,6 +444,7 @@ def extra_edit_plex_metadata():
             episodes_changed += 1
 
     print(f'Applied metadata to {episodes_changed} Onigashima Paced episodes.')
+    input('Press enter to continue')
 
 
 def plex_auth():
@@ -468,6 +473,13 @@ def plex_auth():
             return False
 
     return True
+
+
+def clear_terminal():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 main()
