@@ -151,7 +151,7 @@ def main():
     while True:
         clear_terminal()
         print("Enter the option you'd like to use below. Enter any other key to cancel.")
-        print(f"1. Dry run status: {"yes" if dry_run is True else "no"}. Dry run means no actual files or Plex metadata wil be modified. Only example output will be shown.")
+        print(f"1. Dry run status: {'yes' if dry_run is True else 'no'}. Dry run means no actual files or Plex metadata wil be modified. Only example output will be shown.")
         print("2. Scan for and organize One Pace episodes")
         print("3. Apply One Pace episode metadata to Plex. Please only do this after you've verified that your One Pace episodes are present in your Plex server.")
         print("4. Apply custom posters and backgrounds to the One Pace series and its seasons. This is strongly recommended as they'll be blank otherwise and you'll need to update them manually.")
