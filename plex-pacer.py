@@ -155,8 +155,9 @@ def main():
         print("2. Scan for and organize One Pace episodes")
         print("3. Apply One Pace episode metadata to Plex. Please only do this after you've verified that your One Pace episodes are present in your Plex server.")
         print("4. Apply custom posters and backgrounds to the One Pace series and its seasons. This is strongly recommended as they'll be blank otherwise and you'll need to update them manually.")
-        print("5. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
-        print("6. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
+        print("5. OPTIONAL: Apply nearest original Toei release dates to episodes. Not required for a seamless watching experience, but nice for context of when the original episodes were animated.")
+        print("6. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
+        print("7. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
         response = input("Option: ")
         clear_terminal()
         match response:
@@ -169,8 +170,10 @@ def main():
             case '4':
                 apply_plex_posters()
             case '5':
-                ask_extra_edits()
+                apply_toei_release_dates()
             case '6':
+                ask_extra_edits()
+            case '7':
                 extra_edit_plex_metadata()
             case _:
                 break
@@ -315,6 +318,42 @@ def apply_plex_posters():
             season.uploadPoster(filepath=f'assets/posters/{season.index:02d}.png')
             print(f'Applied poster to Season {season.index:02d}')
 
+    input('Press enter to continue')
+
+
+def apply_toei_release_dates():
+    if plex_auth() is False:
+        return
+
+    print('Successfully found One Pace series. Searching for episodes to apply metadata to.')
+    episodes_changed = 0
+    episodes: Episode = pace_series.episodes()
+    for episode in episodes:
+        metadata = get_pace_episode_metadata(episode.seasonNumber, episode.episodeNumber)
+        if metadata is None:
+            if episode.seasonNumber == WANO_SEASON_NUMBER and episode.episodeNumber > len(series_data['Wano']):
+                # quietly skip Onigashima Paced Wano episodes
+                continue
+
+            print(f'Could not find any One Pace metadata for {episode.seasonEpisode.upper()}')
+            continue
+
+        if metadata['toei_airdate'] is None or len(metadata['toei_airdate']) == 0:
+            # quietly skip episodes without any airdate set
+            continue
+
+        changed = False
+        if episode.originallyAvailableAt is None or episode.originallyAvailableAt.strftime('%Y-%m-%d') != metadata['toei_airdate']:
+            if dry_run is False:
+                episode.editOriginallyAvailable(metadata['toei_airdate'])
+
+            changed = True
+            print(f"Applied Toei release date to {episode.seasonEpisode.upper()} ({metadata['toei_airdate']})")
+
+        if changed is True:
+            episodes_changed += 1
+
+    print(f'Applied Toei release dates to {episodes_changed} One Pace episodes.')
     input('Press enter to continue')
 
 
