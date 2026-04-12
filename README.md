@@ -17,7 +17,8 @@ Optional support for Onigashima Paced, another One Piece edit that currently fil
 # Benefits of this script
 * Very easy to update with new releases.
 * Hardlinks files when organizing into season folders, avoiding needless file duplication while also keeping original downloads intact.
-* Preserves original file names (Aside from the Dressrosa arc, whose batch torrent is named differently from literally every other release. The Dressrosa episodes are renamed by the script to match the other One Pace releases. This is required because they will not be parsed in Plex properly otherwise.)
+* Preserves original file names.
+    * Aside from the Dressrosa arc, whose batch torrent is named differently from literally every other release. The Dressrosa episodes are renamed by the script to match the other One Pace releases. This is required because they will not be parsed in Plex properly otherwise.
 * Uses the Plex API to directly apply metadata to One Pace episode entries inside of Plex. This means that you can also use alternative One Pace-compatible edits like Muhn Pace if you're a dub watcher. Do note that this script is not written to organize other edits and can only apply metadata to edits that follow One Pace's episode structure. This also means that additional series parser plugins and etc not are needed.
 * Offers the ability to add the original air dates of the anime to each edited episode. This is nice for having the context of when the episodes were originally animated and ensures proper playback between seasons.
 
