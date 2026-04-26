@@ -31,6 +31,9 @@ ONIGASHIMA_START = 26
 ONIGASHIMA_END = 48
 WANO_SEASON_NUMBER = 35
 
+# long ring long land season number for the temporary "episode 0"
+LRLL_SEASON_NUMBER = 17
+
 # global variables for plex data and etc
 plex_account: MyPlexAccount = None
 plex_server: PlexServer = None
@@ -134,7 +137,12 @@ def get_pace_episode_metadata(season: int, episode: int):
     if isinstance(season_name, tuple):
         season_name = season_name[0]  # use the og/outdated season names because that's what's in our episodes.json file
 
-    episode_index = episode - 1
+    if season == LRLL_SEASON_NUMBER:
+        # special exception for LRLL because it currently has an episode 0 due to the edit's age and series transitioning to 16:9 HD at this point
+        episode_index = episode
+    else:
+        episode_index = episode - 1
+
     season = series_data.get(season_name)
     if season is None:
         return None
