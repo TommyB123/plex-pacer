@@ -12,7 +12,7 @@ Optional support for Onigashima Paced, another One Piece edit that currently fil
 * Extract the zip file to a folder.
     * If you intend to use the script to organize your One Pace episodes, you must place the script files in a directory that contains either the episodes or a child directory with the episodes.
 * Edit `config.json` with any text editor and fill out your Plex username and password alongside the name of the media server you will be creating your One Pace series entry on.
-* Answer Y/N (yes/no) to each prompt as they appear. 
+* Select your desired option in the terminal window.
 
 # Benefits of this script
 * Very easy to update with new releases.
