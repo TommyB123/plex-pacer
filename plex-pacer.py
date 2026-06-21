@@ -274,6 +274,10 @@ def apply_plex_metadata():
     episodes_changed = 0
     episodes: Episode = pace_series.episodes()
     for episode in episodes:
+        if episode.seasonNumber == 0:
+            # skip specials
+            continue
+
         metadata = get_pace_episode_metadata(episode.seasonNumber, episode.episodeNumber)
         if metadata is None:
             if episode.seasonNumber == WANO_SEASON_NUMBER and episode.episodeNumber > len(series_data['Wano']):
