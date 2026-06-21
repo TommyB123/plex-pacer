@@ -1,28 +1,184 @@
 [
-    "The Code of Oshiruko",
-    "Anarchy in the B.M.",
-    "A Lifelong Ham Actor",
-    "This is Otama!!",
-    "Jinbe vs Who's Who",
-    "Triceracopter",
-    "The Stars Take the Stage",
-    "So-and-So",
-    "Twin Dragons",
-    "Brachiosnakeus",
-    "The Tower",
-    "Soldier of Science",
-    "Oden's Beloved Blade",
-    "Wings of the Pirate King",
-    "Drunken Dragon Bagua",
-    "The Main Attraction",
-    "Komurasaki",
-    "Let Us Face Death Together!",
-    "Warrior of Liberation",
-    "The Skies Above the Capital",
-    "The World You Wish For",
-    "Kozuki Momonosuke",
-    "New Morning",
-    "New Emperors",
-    "New Era",
-    "Final Curtain"
+    {
+        "title": "The Code of Oshiruko",
+        "summary": "",
+        "chapters": "1011",
+        "episodes": "1028, 1031",
+        "toei_airdate": "2022-08-07"
+    },
+    {
+        "title": "Anarchy in the B.M.",
+        "summary": "",
+        "chapters": "1012-1013",
+        "episodes": "1032-1034",
+        "toei_airdate": "2022-09-11"
+    },
+    {
+        "title": "A Lifelong Ham Actor",
+        "summary": "",
+        "chapters": "1014-1015",
+        "episodes": "1034-1036",
+        "toei_airdate": "2022-09-25"
+    },
+    {
+        "title": "This is Otama!!",
+        "summary": "",
+        "chapters": "1015-1017",
+        "episodes": "1037-1038",
+        "toei_airdate": "2022-10-23"
+    },
+    {
+        "title": "Jinbe vs Who's Who",
+        "summary": "",
+        "chapters": "1017-1018",
+        "episodes": "1039-1040",
+        "toei_airdate": "2022-11-06"
+    },
+    {
+        "title": "Triceracopter",
+        "summary": "",
+        "chapters": "1019-1021",
+        "episodes": "1041-1043",
+        "toei_airdate": "2022-11-20"
+    },
+    {
+        "title": "The Stars Take the Stage",
+        "summary": "",
+        "chapters": "1021-1022",
+        "episodes": "1044-1046",
+        "toei_airdate": "2022-12-11"
+    },
+    {
+        "title": "So-and-So",
+        "summary": "",
+        "chapters": "1023-1024",
+        "episodes": "1046-1048",
+        "toei_airdate": "2023-01-08"
+    },
+    {
+        "title": "Twin Dragons",
+        "summary": "",
+        "chapters": "1025-1026",
+        "episodes": "1049-1051",
+        "toei_airdate": "2023-01-29"
+    },
+    {
+        "title": "Brachiosnakeus",
+        "summary": "",
+        "chapters": "1027-1028",
+        "episodes": "1051-1053",
+        "toei_airdate": "2023-02-12"
+    },
+    {
+        "title": "The Tower",
+        "summary": "",
+        "chapters": "1029-1030",
+        "episodes": "1054-1055",
+        "toei_airdate": "2023-03-19"
+    },
+    {
+        "title": "Soldier of Science",
+        "summary": "",
+        "chapters": "1030-1031",
+        "episodes": "1056-1057",
+        "toei_airdate": "2023-04-02"
+    },
+    {
+        "title": "Oden's Beloved Blade",
+        "summary": "",
+        "chapters": "1032-1033",
+        "episodes": "1058-1060",
+        "toei_airdate": "2023-04-16"
+    },
+    {
+        "title": "Wings of the Pirate King",
+        "summary": "",
+        "chapters": "1034-1036",
+        "episodes": "1060-1062",
+        "toei_airdate": "2023-04-30"
+    },
+    {
+        "title": "Drunken Dragon Bagua",
+        "summary": "",
+        "chapters": "1036-1037",
+        "episodes": "1063-1064",
+        "toei_airdate": "2023-05-28"
+    },
+    {
+        "title": "The Main Attraction",
+        "summary": "",
+        "chapters": "1038-1040",
+        "episodes": "1065-1067",
+        "toei_airdate": "2023-06-11"
+    },
+    {
+        "title": "Komurasaki",
+        "summary": "",
+        "chapters": "1041",
+        "episodes": "1068-1069",
+        "toei_airdate": "2023-07-09"
+    },
+    {
+        "title": "Let Us Face Death Together!",
+        "summary": "",
+        "chapters": "1042-1043",
+        "episodes": "1069-1070",
+        "toei_airdate": "2023-07-16"
+    },
+    {
+        "title": "Warrior of Liberation",
+        "summary": "",
+        "chapters": "1044-1046",
+        "episodes": "1071-1072",
+        "toei_airdate": "2023-08-06"
+    },
+    {
+        "title": "The Skies Above the Capital",
+        "summary": "",
+        "chapters": "1046-1047",
+        "episodes": "1073-1074",
+        "toei_airdate": "2023-08-20"
+    },
+    {
+        "title": "The World You Wish For",
+        "summary": "",
+        "chapters": "1048-1049",
+        "episodes": "1075-1076",
+        "toei_airdate": "2023-09-10"
+    },
+    {
+        "title": "Kozuki Momonosuke",
+        "summary": "",
+        "chapters": "1050-1051",
+        "episodes": "1077-1078",
+        "toei_airdate": "2023-09-24"
+    },
+    {
+        "title": "New Morning",
+        "summary": "",
+        "chapters": "1052",
+        "episodes": "1079",
+        "toei_airdate": "2023-10-15"
+    },
+    {
+        "title": "New Emperors",
+        "summary": "",
+        "chapters": "1053-1054",
+        "episodes": "1080-1081",
+        "toei_airdate": "2023-10-22"
+    },
+    {
+        "title": "New Era",
+        "summary": "",
+        "chapters": "1055-1056",
+        "episodes": "1082-1083",
+        "toei_airdate": "2023-11-05"
+    },
+    {
+        "title": "Final Curtain",
+        "summary": "",
+        "chapters": "1057",
+        "episodes": "1085",
+        "toei_airdate": "2023-11-26"
+    }
 ]
