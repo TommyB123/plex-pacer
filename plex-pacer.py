@@ -5,6 +5,7 @@ from pathlib import Path
 from plexapi.myplex import MyPlexAccount
 from plexapi.server import PlexServer
 from plexapi.video import Show, Episode
+from typing import List
 
 with open('episodes.json', encoding="utf-8") as f:
     series_data = json.load(f)
@@ -163,9 +164,8 @@ def main():
         print("2. Scan for and organize One Pace episodes")
         print("3. Apply One Pace episode metadata to Plex. Please only do this after you've verified that your One Pace episodes are present in your Plex server.")
         print("4. Apply custom posters and backgrounds to the One Pace series and its seasons. This is strongly recommended as they'll be blank otherwise and you'll need to update them manually.")
-        print("5. OPTIONAL: Apply nearest original Toei release dates to episodes. Not required for a seamless watching experience, but nice for context of when the original episodes were animated.")
-        print("6. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
-        print("7. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
+        print("5. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
+        print("6. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
         response = input("Option: ")
         clear_terminal()
         match response:
@@ -178,11 +178,9 @@ def main():
             case '4':
                 apply_plex_posters()
             case '5':
-                apply_toei_release_dates()
+                organize_onigashima_edit()
             case '6':
-                ask_extra_edits()
-            case '7':
-                extra_edit_plex_metadata()
+                apply_onigashima_plex_metadata()
             case _:
                 break
 
@@ -285,23 +283,7 @@ def apply_plex_metadata():
             print(f'Could not find any One Pace metadata for {episode.seasonEpisode.upper()}')
             continue
 
-        changed = False
-        if episode.title != metadata['title']:
-            if dry_run is False:
-                episode.editTitle(metadata['title'])
-                episode.editSortTitle(metadata['title'])
-
-            print(f"Applied episode title to {episode.seasonEpisode.upper()} ({metadata['title']})")
-            changed = True
-
-        new_summary = f"{metadata['summary']}\nManga Chapters: {metadata['chapters']} | Edited Episodes: {metadata['episodes']}"
-        if episode.summary != new_summary:
-            if dry_run is False:
-                episode.editSummary(new_summary)
-
-            print(f"Applied episode summary to {episode.seasonEpisode.upper()}")
-            changed = True
-
+        changed = apply_metadata_to_episode(episode, metadata)
         if changed is True:
             episodes_changed += 1
 
@@ -329,43 +311,7 @@ def apply_plex_posters():
     input('Press enter to continue')
 
 
-def apply_toei_release_dates():
-    if plex_auth() is False:
-        return
-
-    print('Successfully found One Pace series. Searching for episodes to apply metadata to.')
-    episodes_changed = 0
-    episodes: Episode = pace_series.episodes()
-    for episode in episodes:
-        metadata = get_pace_episode_metadata(episode.seasonNumber, episode.episodeNumber)
-        if metadata is None:
-            if episode.seasonNumber == WANO_SEASON_NUMBER and episode.episodeNumber > len(series_data['Wano']):
-                # quietly skip Onigashima Paced Wano episodes
-                continue
-
-            print(f'Could not find any One Pace metadata for {episode.seasonEpisode.upper()}')
-            continue
-
-        if metadata['toei_airdate'] is None or len(metadata['toei_airdate']) == 0:
-            # quietly skip episodes without any airdate set
-            continue
-
-        changed = False
-        if episode.originallyAvailableAt is None or episode.originallyAvailableAt.strftime('%Y-%m-%d') != metadata['toei_airdate']:
-            if dry_run is False:
-                episode.editOriginallyAvailable(metadata['toei_airdate'])
-
-            changed = True
-            print(f"Applied Toei release date to {episode.seasonEpisode.upper()} ({metadata['toei_airdate']})")
-
-        if changed is True:
-            episodes_changed += 1
-
-    print(f'Applied Toei release dates to {episodes_changed} One Pace episodes.')
-    input('Press enter to continue')
-
-
-def ask_extra_edits():
+def organize_onigashima_edit():
     current_wano_length = len(series_data['Wano'])
     print('Since Onigashima Paced is another edit that will be placed alongside One Pace episodes, the episode numbering won\'t line up.')
     print('In order to fix this, we\'ll be renumbering the episode files. Pick an episode number to begin the renumbering at.')
@@ -445,7 +391,7 @@ def ask_extra_edits():
     input('Press enter to continue')
 
 
-def extra_edit_plex_metadata():
+def apply_onigashima_plex_metadata():
     if plex_auth() is False:
         return
 
@@ -468,30 +414,55 @@ def extra_edit_plex_metadata():
         return
 
     print('Successfully fetched Wano season folder. Searching for Onigashima Paced episodes to apply metadata to.')
-    onigashima_episodes = []
+    onigashima_episodes: List[Episode] = []
     for episode in episodes:
         if episode.episodeNumber > len(series_data['Wano']):  # assume it's an Onigashima Paced episode
             onigashima_episodes.append(episode)
 
     episodes_changed = 0
     for i in range(len(onigashima_episodes)):
-        new_title = onigashima_data[i]
         episode = onigashima_episodes[i]
 
-        changed = False
-        if episode.title != new_title:
-            if dry_run is False:
-                episode.editTitle(new_title)
-                episode.editSortTitle(new_title)
-
-            print(f"Applied episode title to {episode.seasonEpisode.upper()} ({new_title})")
-            changed = True
-
+        changed = apply_metadata_to_episode(episode, onigashima_data[i])
         if changed is True:
             episodes_changed += 1
 
     print(f'Applied metadata to {episodes_changed} Onigashima Paced episodes.')
     input('Press enter to continue')
+
+
+def apply_metadata_to_episode(episode: Episode, metadata: dict):
+    changed = False
+
+    # apply episode title
+    if episode.title != metadata['title']:
+        if dry_run is False:
+            episode.editTitle(metadata['title'])
+            episode.editSortTitle(metadata['title'])
+
+        changed = True
+        print(f"Applied episode title to {episode.seasonEpisode.upper()} ({metadata['title']})")
+
+    # apply episode summary
+    new_summary = f"{metadata['summary']}\nManga Chapters: {metadata['chapters']} | Edited Episodes: {metadata['episodes']}"
+    if episode.summary != new_summary:
+        if dry_run is False:
+            episode.editSummary(new_summary)
+
+        changed = True
+        print(f"Applied episode summary to {episode.seasonEpisode.upper()}")
+
+    if metadata['toei_airdate'] is None or len(metadata['toei_airdate']) == 0:
+        return False
+
+    if episode.originallyAvailableAt is None or episode.originallyAvailableAt.strftime('%Y-%m-%d') != metadata['toei_airdate']:
+        if dry_run is False:
+            episode.editOriginallyAvailable(metadata['toei_airdate'])
+
+        changed = True
+        print(f"Applied Toei release date to {episode.seasonEpisode.upper()} ({metadata['toei_airdate']})")
+
+    return changed
 
 
 def plex_auth():
