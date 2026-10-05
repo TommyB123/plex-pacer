@@ -164,8 +164,9 @@ def main():
         print("2. Scan for and organize One Pace episodes")
         print("3. Apply One Pace episode metadata to Plex. Please only do this after you've verified that your One Pace episodes are present in your Plex server.")
         print("4. Apply custom posters and backgrounds to the One Pace series and its seasons. This is strongly recommended as they'll be blank otherwise and you'll need to update them manually.")
-        print("5. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
-        print("6. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
+        print("5. Apply curated thumbnails to all One Pace episodes. Highly recommended since sometimes the thumbnails Plex generates are lackluster.")
+        print("6. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
+        print("7. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
         response = input("Option: ")
         clear_terminal()
         match response:
@@ -178,8 +179,10 @@ def main():
             case '4':
                 apply_plex_posters()
             case '5':
-                organize_onigashima_edit()
+                apply_plex_thumbnails()
             case '6':
+                organize_onigashima_edit()
+            case '7':
                 apply_onigashima_plex_metadata()
             case _:
                 break
@@ -313,6 +316,21 @@ def apply_plex_posters():
             print(f'Applied poster to Season {season.index:02d}')
 
     input('Press enter to continue')
+
+
+def apply_plex_thumbnails():
+    if plex_auth() is False:
+        return
+
+    episodes: Episode = pace_series.episodes()
+    for episode in episodes:
+        path = f'assets/thumbnails/{episode.seasonNumber:02d}/{episode.episodeNumber:02d}.webp'
+        if os.path.exists(path):
+            print(f'Applied custom thumbnail to {episode.seasonEpisode.upper()}')
+            if dry_run is False:
+                episode.uploadPoster(filepath=path)
+
+    input('Press enter to continue.')
 
 
 def organize_onigashima_edit():
