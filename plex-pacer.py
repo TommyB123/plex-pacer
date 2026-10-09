@@ -10,22 +10,14 @@ from typing import List
 with open('episodes.json', encoding="utf-8") as f:
     series_data = json.load(f)
 
-with open('config.json') as f:
-    plex_data = json.load(f)
-
 with open('onigashima.json') as f:
     onigashima_data = json.load(f)
 
 PACE_SERIES_NAME = 'One Pace'
 
-# your plex username or email
-PLEX_LOGIN = plex_data['plex_username']
-
-# your plex password
-PLEX_PASSWORD = plex_data['plex_password']
-
-# the name of your plex media server
-PLEX_SERVER_NAME = plex_data['plex_server_name']
+PLEX_LOGIN = ''
+PLEX_PASSWORD = ''
+PLEX_SERVER_NAME = ''
 
 # variables for suppelementing the incomplete Wano arc with the Onigashima Paced edit alongside One Pace proper
 ONIGASHIMA_START = 29
@@ -167,6 +159,7 @@ def main():
         print("5. Apply curated thumbnails to all One Pace episodes. Highly recommended since sometimes the thumbnails Plex generates are lackluster.")
         print("6. OPTIONAL: Organize the Onigashima Paced Wano edit alongside One Pace.")
         print("7. OPTIONAL: Apply Onigashima Paced episode metadata to Plex. Please only do this after you've verified that the episodes are present in your Plex server.")
+        print("8. Delete configuration file. Useful if you've entered incorrect information and don't want to modify it by hand.")
         response = input("Option: ")
         clear_terminal()
         match response:
@@ -184,6 +177,8 @@ def main():
                 organize_onigashima_edit()
             case '7':
                 apply_onigashima_plex_metadata()
+            case '8':
+                delete_config()
             case _:
                 break
 
@@ -488,6 +483,8 @@ def apply_metadata_to_episode(episode: Episode, metadata: dict):
 
 
 def plex_auth():
+    check_config()
+
     global plex_account
     if plex_account is None:
         print('Attempting to authenticate with Plex using the credentials provided.')
@@ -513,6 +510,75 @@ def plex_auth():
             return False
 
     return True
+
+
+def check_config():
+    clear_terminal()
+    if os.path.exists('config.json') is False:
+        # create a new config file
+        data = {
+            'plex_username': '',
+            'plex_password': '',
+            'plex_server_name': ''
+        }
+
+        print('Writing new config file.')
+        with open('config.json', 'x') as file:
+            file.write(json.dumps(data))
+
+    with open('config.json') as file:
+        plex_data = json.load(file)
+        changed = False
+
+        # your plex username or email
+        if len(plex_data['plex_username']) == 0:
+            plex_data['plex_username'] = input('Enter the email associated with your Plex account\nEmail: ')
+            changed = True
+
+        global PLEX_LOGIN
+        PLEX_LOGIN = plex_data['plex_username']
+
+        # your plex password
+        if len(plex_data['plex_password']) == 0:
+            plex_data['plex_password'] = input('Enter the password associated with your Plex account\nPassword: ')
+            changed = True
+
+        global PLEX_PASSWORD
+        PLEX_PASSWORD = plex_data['plex_password']
+
+        # the name of your plex media server
+        if len(plex_data['plex_server_name']) == 0:
+            plex_data['plex_server_name'] = input('Enter the name of the media server that contains One Pace\nServer: ')
+            changed = True
+
+        global PLEX_SERVER_NAME
+        PLEX_SERVER_NAME = plex_data['plex_server_name']
+
+    if changed is True:
+        with open('config.json', 'w') as file:
+            file.write(json.dumps(plex_data))
+
+    clear_terminal()
+
+
+def delete_config():
+    if os.path.exists('config.json') is True:
+        os.remove('config.json')
+        print('Config file has been deleted. You will be prompted to enter your Plex information again next time a Plex API call is made.')
+    else:
+        print('No configuration file exists.')
+
+    input('Press enter to continue.')
+
+    # reset plex info variables
+    global PLEX_LOGIN
+    PLEX_LOGIN = ''
+
+    global PLEX_PASSWORD
+    PLEX_PASSWORD = ''
+
+    global PLEX_SERVER_NAME
+    PLEX_SERVER_NAME = ''
 
 
 def clear_terminal():
