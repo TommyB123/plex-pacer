@@ -1,3 +1,8 @@
+This project has been sunset in favor of a more generalized script that supports multiple anime edits. The new version can be found [here](https://github.com/TommyB123/pace2plex).
+
+<details>
+<summary>Original Readme</summary>
+
 # Plex Pacer
 Plex Pacer is a simple and somewhat jank script that can be used to organize the [One Pace](https://onepace.net) edit of the One Piece anime for your Plex library. It offers the ability to organize your files into season folders appropriately, apply respective metadata through the Plex API and also assign custom season posters.
 
@@ -30,3 +35,5 @@ Optional support for Onigashima Paced, another One Piece edit that currently fil
 [Episode Descriptions](https://docs.google.com/spreadsheets/d/1M0Aa2p5x7NioaH9-u8FyHq6rH3t5s6Sccs8GoC6pHAM/)
 
 [Onigashima Paced Episode Titles](https://docs.google.com/spreadsheets/d/1HoYogAchoU5DWxVJzUy3eZcHMZk_hUmzUVnQm9KxeFI/)
+
+</details>
